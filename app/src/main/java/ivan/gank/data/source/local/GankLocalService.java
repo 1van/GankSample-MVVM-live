@@ -11,6 +11,7 @@ import java.util.List;
 import io.reactivex.Flowable;
 import ivan.gank.data.model.GankItemBean;
 
+
 @Dao
 public interface GankLocalService {
 

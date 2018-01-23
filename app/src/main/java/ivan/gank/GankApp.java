@@ -1,12 +1,7 @@
 package ivan.gank;
 
+
 import android.app.Application;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
-import ivan.gank.data.source.local.GankLocalService;
 
 
 public class GankApp extends Application {

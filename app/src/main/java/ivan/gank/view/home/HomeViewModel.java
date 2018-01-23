@@ -1,5 +1,6 @@
 package ivan.gank.view.home;
 
+
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.databinding.ObservableArrayList;
@@ -10,16 +11,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
-import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import ivan.gank.BR;
 import ivan.gank.R;
 import ivan.gank.data.model.GankItemBean;
 import ivan.gank.data.source.GankRepository;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
+
 
 public class HomeViewModel extends AndroidViewModel {
 
@@ -27,6 +26,7 @@ public class HomeViewModel extends AndroidViewModel {
     public final ObservableInt tabIndicatorColor = new ObservableInt(R.color.colorPrimary);
     public final ObservableInt tabSelectedTextColor = new ObservableInt(R.color.colorPrimary);
     public final ObservableList<GankItemBean> items = new ObservableArrayList<>();
+    private final CompositeDisposable mDisposable = new CompositeDisposable();
     public ItemBinding<GankItemBean> itemBinding;
 
     public HomeViewModel(@NonNull Application application) {
@@ -34,34 +34,36 @@ public class HomeViewModel extends AndroidViewModel {
         setTbBackground(application.getColor(R.color.colorPrimary));
     }
 
+    public void setItemBinding(ItemBinding<GankItemBean> itemBinding) {
+        this.itemBinding = itemBinding;
+    }
+
     public void refreshAll() {
-        items.clear();
-        itemBinding = ItemBinding.of(BR.item, R.layout.fragment_all_item);
-        GankRepository.INSTANCE
-                .queryCategory("all", "20", 1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<GankItemBean>>() {
-                    @Override
-                    public void accept(List<GankItemBean> gankItemBeans) throws Exception {
-                        items.addAll(gankItemBeans);
-                    }
-                });
+        mDisposable.add(
+                GankRepository.INSTANCE
+                        .queryCategory("all", "20", 1)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(gankItemBeans -> {
+                            items.clear();
+                            items.addAll(gankItemBeans);
+                        })
+        );
+
     }
 
     public void refreshGirl() {
-        items.clear();
-        itemBinding = ItemBinding.of(BR.item, R.layout.fragment_girl_item);
-        GankRepository.INSTANCE
-                .queryCategory("福利", "20", 1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<GankItemBean>>() {
-                    @Override
-                    public void accept(List<GankItemBean> gankItemBeans) throws Exception {
-                        items.addAll(gankItemBeans);
-                    }
-                });
+        mDisposable.add(
+                GankRepository.INSTANCE
+                        .queryCategory("福利", "20", 1)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(gankItemBeans -> {
+                            items.clear();
+                            items.addAll(gankItemBeans);
+                        })
+        );
+
     }
 
     public void setTbBackground(int color) {
@@ -75,5 +77,10 @@ public class HomeViewModel extends AndroidViewModel {
     public void setTabSelectedTextColor(int color) {
         tabSelectedTextColor.set(color);
     }
+
+    public void onStop() {
+        mDisposable.clear();
+    }
+
 
 }

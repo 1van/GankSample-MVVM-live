@@ -1,5 +1,6 @@
 package ivan.gank.view.home;
 
+
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -15,11 +16,11 @@ import ivan.gank.utils.ArrayLinkedHashMap;
 import ivan.gank.view.home.fragment.AllFragment;
 import ivan.gank.view.home.fragment.GirlFragment;
 
+
 public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
     private HomeViewModel viewModel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +65,10 @@ public class HomeActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-                        viewModel.setTbBackground(getColor(R.color.colorPrimary));
-                        viewModel.setTabIndicatorColor(getColor(R.color.colorPrimary));
-                        viewModel.setTabSelectedTextColor(getColor(R.color.colorPrimary));
-                        getWindow().setStatusBarColor(getColor(R.color.colorPrimary));
-
+                        setColor(getColor(R.color.colorPrimary));
                         break;
                     case 1:
-                        viewModel.setTbBackground(getColor(R.color.colorAccent));
-                        viewModel.setTabIndicatorColor(getColor(R.color.colorAccent));
-                        viewModel.setTabSelectedTextColor(getColor(R.color.colorAccent));
-                        getWindow().setStatusBarColor(getColor(R.color.colorAccent));
+                        setColor(getColor(R.color.colorAccent));
                         break;
                 }
             }
@@ -84,6 +78,19 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        viewModel.onStop();
+    }
+
+    private void setColor(int color) {
+        viewModel.setTbBackground(color);
+        viewModel.setTabIndicatorColor(color);
+        viewModel.setTabSelectedTextColor(color);
+        getWindow().setStatusBarColor(color);
     }
 
 }

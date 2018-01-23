@@ -1,9 +1,11 @@
 package ivan.gank.data.source;
 
+
 import java.util.List;
 
 import io.reactivex.Flowable;
 import ivan.gank.data.model.GankItemBean;
+
 
 public interface GankDataSource {
 

@@ -5,6 +5,7 @@ import android.databinding.BindingAdapter;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 
+
 public class TabLayoutBindingAdapter {
 
     @BindingAdapter("tabIndicatorColor")

@@ -1,5 +1,6 @@
 package ivan.gank.view.home;
 
+
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;

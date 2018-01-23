@@ -10,6 +10,7 @@ import ivan.gank.data.source.local.GankLocalDataSource;
 import ivan.gank.data.source.remote.GankRemoteDataSource;
 import ivan.gank.utils.NetworkUtils;
 
+
 public enum GankRepository implements GankDataSource {
     INSTANCE;
 

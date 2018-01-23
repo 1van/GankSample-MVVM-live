@@ -6,12 +6,12 @@ import android.arch.persistence.room.Room;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.internal.functions.ObjectHelper;
 import io.reactivex.schedulers.Schedulers;
 import ivan.gank.GankApp;
 import ivan.gank.data.model.GankItemBean;
 import ivan.gank.data.source.GankDataSource;
+
 
 public enum GankLocalDataSource implements GankDataSource {
     INSTANCE;
@@ -33,9 +33,7 @@ public enum GankLocalDataSource implements GankDataSource {
     @Override
     public Flowable<List<GankItemBean>> queryCategory(String category, String count, int index) {
         if (category.equals("all")) category = "%";
-        return dao.queryCategory(category, count, index)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return dao.queryCategory(category, count, index);
     }
 
 }

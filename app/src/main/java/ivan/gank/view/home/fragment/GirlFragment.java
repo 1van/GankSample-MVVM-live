@@ -7,14 +7,20 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
+import ivan.gank.BR;
+import ivan.gank.R;
 import ivan.gank.view.home.BaseFragment;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
+
 
 public class GirlFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        viewModel.refreshGirl();
+        viewModel.setItemBinding(ItemBinding.of(BR.item, R.layout.fragment_girl_item));
         binding.rv.setLayoutManager(new GridLayoutManager(getContext(), 1));
         super.onViewCreated(view, savedInstanceState);
+        viewModel.refreshGirl();
     }
+
 }
