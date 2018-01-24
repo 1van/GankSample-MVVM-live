@@ -31,11 +31,11 @@
                 android:layout_height="wrap_content"
                 android:visibility='@{item.images.size()>0 ? View.VISIBLE : View.GONE}' />
 
-            <LinearLayout android:layout_marginTop="4dp"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility='@{item.type.equals("福利") ? View.GONE : View.VISIBLE}'>
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -53,7 +53,5 @@
                     android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
-
 </layout>

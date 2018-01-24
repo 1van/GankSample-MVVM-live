@@ -22,9 +22,8 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 public class HomeViewModel extends AndroidViewModel {
 
+    public final ObservableInt color = new ObservableInt(R.color.colorPrimary);
     public final ObservableField<Drawable> tbBackground = new ObservableField<>();
-    public final ObservableInt tabIndicatorColor = new ObservableInt(R.color.colorPrimary);
-    public final ObservableInt tabSelectedTextColor = new ObservableInt(R.color.colorPrimary);
     public final ObservableList<GankItemBean> items = new ObservableArrayList<>();
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     public ItemBinding<GankItemBean> itemBinding;
@@ -44,10 +43,7 @@ public class HomeViewModel extends AndroidViewModel {
                         .queryCategory("all", "20", 1)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(gankItemBeans -> {
-                            items.clear();
-                            items.addAll(gankItemBeans);
-                        })
+                        .subscribe(items::add)
         );
 
     }
@@ -58,10 +54,7 @@ public class HomeViewModel extends AndroidViewModel {
                         .queryCategory("福利", "20", 1)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(gankItemBeans -> {
-                            items.clear();
-                            items.addAll(gankItemBeans);
-                        })
+                        .subscribe(items::add)
         );
 
     }
@@ -70,17 +63,12 @@ public class HomeViewModel extends AndroidViewModel {
         tbBackground.set(new ColorDrawable(color));
     }
 
-    public void setTabIndicatorColor(int color) {
-        tabIndicatorColor.set(color);
-    }
-
-    public void setTabSelectedTextColor(int color) {
-        tabSelectedTextColor.set(color);
+    public void setColor(int color) {
+        this.color.set(color);
     }
 
     public void onStop() {
         mDisposable.clear();
     }
-
 
 }

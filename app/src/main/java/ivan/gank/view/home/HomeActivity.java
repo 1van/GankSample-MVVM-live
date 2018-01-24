@@ -24,11 +24,10 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         binding.setViewModel(viewModel);
+        super.onCreate(savedInstanceState);
 
         setActionBar(binding.toolbar);
 
@@ -87,9 +86,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setColor(int color) {
+        viewModel.setColor(color);
         viewModel.setTbBackground(color);
-        viewModel.setTabIndicatorColor(color);
-        viewModel.setTabSelectedTextColor(color);
         getWindow().setStatusBarColor(color);
     }
 

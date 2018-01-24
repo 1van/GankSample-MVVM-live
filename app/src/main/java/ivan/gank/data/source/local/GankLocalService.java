@@ -16,9 +16,9 @@ import ivan.gank.data.model.GankItemBean;
 public interface GankLocalService {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<GankItemBean> bean);
+    void insert(GankItemBean bean);
 
-    @Query("SELECT * FROM GankItemBean WHERE type LIKE :category  LIMIT :index,:count * :index")
+    @Query("SELECT * FROM GankItemBean WHERE type LIKE :category LIMIT :index-1,:count*:index")
     Flowable<List<GankItemBean>> queryCategory(String category, String count, int index);
 
 }

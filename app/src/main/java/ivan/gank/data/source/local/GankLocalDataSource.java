@@ -3,8 +3,6 @@ package ivan.gank.data.source.local;
 
 import android.arch.persistence.room.Room;
 
-import java.util.List;
-
 import io.reactivex.Flowable;
 import io.reactivex.internal.functions.ObjectHelper;
 import io.reactivex.schedulers.Schedulers;
@@ -24,16 +22,16 @@ public enum GankLocalDataSource implements GankDataSource {
         dao = db.dao();
     }
 
-    public void insert(List<GankItemBean> bean) {
+    public void insert(GankItemBean bean) {
         Flowable.just(bean)
                 .subscribeOn(Schedulers.io())
                 .subscribe(dao::insert);
     }
 
     @Override
-    public Flowable<List<GankItemBean>> queryCategory(String category, String count, int index) {
+    public Flowable<GankItemBean> queryCategory(String category, String count, int index) {
         if (category.equals("all")) category = "%";
-        return dao.queryCategory(category, count, index);
+        return dao.queryCategory(category, count, index).flatMap(Flowable::fromIterable);
     }
 
 }

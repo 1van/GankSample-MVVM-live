@@ -1,12 +1,9 @@
 package ivan.gank.data.source.remote;
 
 
-import java.util.List;
-
 import io.reactivex.Flowable;
 import ivan.gank.data.model.GankItemBean;
 import ivan.gank.data.source.GankDataSource;
-import ivan.gank.data.source.local.GankLocalDataSource;
 
 
 public enum GankRemoteDataSource implements GankDataSource {
@@ -19,15 +16,13 @@ public enum GankRemoteDataSource implements GankDataSource {
     }
 
     @Override
-    public Flowable<List<GankItemBean>> queryCategory(String category, String count, int index) {
+    public Flowable<GankItemBean> queryCategory(String category, String count, int index) {
         return service.queryCategory(category, count, index)
                 .flatMap(gankHttpResponse -> {
                     if (gankHttpResponse.isError())
                         return Flowable.error(new Throwable("服务器返回error"));
                     else
                         return Flowable.just(gankHttpResponse.getResults());
-                })
-                .doOnNext(GankLocalDataSource.INSTANCE::insert)
-                .doOnError(throwable -> GankLocalDataSource.INSTANCE.queryCategory(category, count, index));
+                }).flatMap(Flowable::fromIterable);
     }
 }
