@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
         <variable
             name="viewModel"
             type="ivan.gank.view.home.HomeViewModel" />
@@ -12,6 +14,7 @@
         android:id="@+id/rv"
         itemBinding="@{viewModel.itemBinding}"
         items="@{viewModel.items}"
+        layoutManager="@{LayoutManagers.linear()}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp" />
